@@ -41,23 +41,10 @@ func (b *ByteReader) Read(count int) []byte {
 	return bytes
 }
 
-func (b *ByteReader) ReadKey() (uint32, interface{}) {
-	panic("implement me")
-}
-
-func (b *ByteReader) ReadUint32() uint32 {
-	panic("implement me")
-}
-
-func (b *ByteReader) EndOfStream() bool {
-	panic("implement me")
-}
-
-func (b *ByteReader) GetNested() IReader {
-	panic("implement me")
-}
-
-func (b *ByteReader) SkipField(i int) {
-	panic("implement me")
+func (b *ByteReader) Skip(count int) {
+	if b.Remaining() < count {
+		panic("end of stream")
+	}
+	b.offset += count
 }
 

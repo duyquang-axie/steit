@@ -65,6 +65,21 @@ impl Runtime {
         }
     }
 
+    pub fn nested_with_logger<T: Logger + 'static>(
+        &self,
+        logger: T,
+        field_number: u32,
+    ) -> (Self, LoggerHandle<T>) {
+        let logger = Arc::new(Mutex::new(RuntimeLogger::new(logger)));
+        (
+            Self {
+                logger: logger.clone(),
+                path: Arc::new(Node::child(&self.path, field_number)),
+            },
+            logger,
+        )
+    }
+
     pub fn parent(&self) -> Self {
         Self {
             logger: self.logger.clone(),
